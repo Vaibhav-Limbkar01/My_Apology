@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Heartfelt Apology ❤️</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .heart-background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .heart-bg {
+            position: absolute;
+            font-size: 40px;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            padding: 50px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #ff4a70;
+            font-size: 48px;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-container {
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #heartfeltMessage {
+            font-size: 24px;
+            line-height: 1.8;
+            color: #333;
+            text-align: center;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards 0.5s;
+        }
+
+        #question {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards;
+        }
+
+        .question-text {
+            font-size: 36px;
+            color: #ff4a70;
+            margin-bottom: 40px;
+            font-weight: bold;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            position: relative;
+            min-height: 100px;
+        }
+
+        button {
+            padding: 20px 50px;
+            border-radius: 50px;
+            border: none;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            min-width: 180px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        #yesBtn {
+            background: linear-gradient(135deg, #ff4a70 0%, #ff2a50 100%);
+            color: white;
+            z-index: 2;
+        }
+
+        #yesBtn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 74, 112, 0.4);
+        }
+
+        #noBtn {
+            background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+            color: #ff4a70;
+            border: 3px solid #ff4a70;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        #noBtn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 74, 112, 0.3);
+        }
+
+        .continue-btn {
+            background: linear-gradient(135deg, #36d1dc 0%, #5b86e5 100%);
+            color: white;
+            padding: 18px 40px;
+            font-size: 22px;
+            margin-top: 30px;
+            animation: pulse 2s infinite;
+        }
+
+        .continue-btn:hover {
+            transform: translateY(-3px);
+            animation: none;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0;
+            animation: floatUp 8s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+       
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            min-width: 350px;
+            max-width: 450px;
+            z-index: 1000;
+            border: 4px solid #ff4a70;
+            display: none;
+        }
+
+        .popup-content {
+            font-size: 22px;
+            margin-bottom: 30px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .popup button {
+            padding: 15px 35px;
+            font-size: 20px;
+            background: #ff4a70;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            min-width: 140px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            display: none;
+        }
+
+      
+        .heart {
+            position: fixed;
+            bottom: -10px;
+            font-size: 18px;
+            color: #ff4a70;
+            animation: heartFloatUp linear forwards;
+            opacity: 0.8;
+            z-index: 1;
+        }
+
+        @keyframes heartFloatUp {
+            0% { transform: translateY(0); opacity: 0.9; }
+            100% { transform: translateY(-120vh); opacity: 0; }
+        }
+
+        .message-line {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s forwards;
+            margin-bottom: 20px;
+        }
+
+      
+        .no-button-area {
+            position: relative;
+            width: 300px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 36px;
+            }
+            
+            #heartfeltMessage {
+                font-size: 20px;
+            }
+            
+            .question-text {
+                font-size: 28px;
+            }
+            
+            button {
+                padding: 15px 30px;
+                font-size: 20px;
+                min-width: 140px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                gap: 20px;
+                align-items: center;
+            }
+            
+            .no-button-area {
+                width: 250px;
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+ 
+    <audio id="bgMusic" loop autoplay style="display:none;">
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6f50e1d63a.mp3" type="audio/mpeg">
+    </audio>
+
+  
+    <div class="overlay" id="overlay"></div>
+
+ 
+    <div class="floating-hearts" id="floatingHearts"></div>
+
+   
+    <div class="popup" id="popup1">
+        <div class="popup-content">
+            Are you sure? 🥺 I promise I'll be better! 💔
+        </div>
+        <button onclick="closePopup(1)">Close</button>
+    </div>
+
+    <div class="popup" id="popup2">
+        <div class="popup-content">
+            Don't say no! 😢 Let's talk about it! 💬
+        </div>
+        <button onclick="closePopup(2)">Close</button>
+    </div>
+
+    <div class="popup" id="popup3">
+        <div class="popup-content">
+            My heart is breaking 💔 Please reconsider! 🙏
+        </div>
+        <button onclick="closePopup(3)">Close</button>
+    </div>
+
+    <div class="popup" id="popup4">
+        <div class="popup-content">
+            I'll make it up to you! 🎁 Pretty please? 🥺
+        </div>
+        <button onclick="closePopup(4)">Close</button>
+    </div>
+
+    <div class="popup" id="popup5">
+        <div class="popup-content">
+            I will get your ButterScotch Ice-cream! 💔 Think again! 💭
+        </div>
+        <button onclick="closePopup(5)">Close</button>
+    </div>
+
+    <div class="popup" id="popup6">
+        <div class="popup-content">
+            I'll do anything you want! 🥰 Please forgive me! 🤗
+        </div>
+        <button onclick="closePopup(6)">Close</button>
+    </div>
+
+
+    <div class="container">
+        <div class="heart-background" id="heartBackground"></div>
+        
+        <div class="content">
+            <h1>My Heartfelt Apology ❤️</h1>
+            
+            <div class="message-container">
+              
+                <div id="heartfeltMessage">
+                    <p class="message-line" style="animation-delay: 0.5s">My Best Friend Somavati,</p>
+                    <p class="message-line" style="animation-delay: 1.5s">I've been thinking about what happened, and I realize how much I had hurt you.</p>
+                    <p class="message-line" style="animation-delay: 3s">I never meant to cause you pain. I was just not in right state of talking with you.</p>
+                    <p class="message-line" style="animation-delay: 4.5s">You are my one and only best friend, and not remaining friends is the last thing I ever wanted.</p>
+                    <p class="message-line" style="animation-delay: 6s">I promise to be more understanding, more patient, and more honest.</p>
+                    <p class="message-line" style="animation-delay: 7.5s">Please know that my promise to you is genuine and deep.</p>
+                    <p class="message-line" style="animation-delay: 9s">With all my love and sincerity,</p>
+                    <p class="message-line" style="animation-delay: 10.5s" style="font-weight: bold; color: #ff4a70;">Your Best Friend, Vaibhav </p>
+                </div>
+                
+              
+                <button class="continue-btn" id="continueBtn" style="animation-delay: 11.5s;">
+                    Continue to Answer 💌
+                </button>
+                
+               
+                <div id="question">
+                    <div class="question-text" id="questionText">Will you forgive me? 🥺💗</div>
+                    <div class="buttons">
+                        <button id="yesBtn">YES 💖</button>
+                        <div class="no-button-area">
+                            <button id="noBtn">NO 🙈</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+   
+    const heartfeltMessage = document.getElementById('heartfeltMessage');
+    const continueBtn = document.getElementById('continueBtn');
+    const questionSection = document.getElementById('question');
+    const questionText = document.getElementById('questionText');
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const noButtonArea = document.querySelector('.no-button-area');
+    const overlay = document.getElementById('overlay');
+    const floatingHearts = document.getElementById('floatingHearts');
+    const heartBackground = document.getElementById('heartBackground');
+    
+ 
+    const normalMsg = "Will you forgive me? 🥺💗";
+    const finalMsg = "Yayyyy!!! I knew you will 😍💖 You're my favorite human! 💕";
+    const repeatMsg = "You already forgave me 😘💞";
+    
+  
+    let noClickCount = 0;
+    const popups = ['popup1', 'popup2', 'popup3', 'popup4', 'popup5', 'popup6'];
+    let popupIndex = 0;
+    const forgiven = localStorage.getItem("forgiven");
+    
+    
+    function createBackgroundHearts() {
+        for (let i = 0; i < 20; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-bg');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 15 + 's';
+            heartBackground.appendChild(heart);
+        }
+    }
+    
+  
+    function createFloatingHearts(count = 50) {
+        for (let i = 0; i < count; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.innerHTML = ['❤️', '💖', '💗', '💓', '💞'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 8 + 's';
+            heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            floatingHearts.appendChild(heart);
+        }
+    }
+    
+   
+    createBackgroundHearts();
+    createFloatingHearts();
+    
+    
+    if (forgiven === "yes") {
+        
+        heartfeltMessage.style.display = 'none';
+        continueBtn.style.display = 'none';
+        questionSection.style.display = 'block';
+        questionSection.style.opacity = '1';
+        questionText.innerHTML = repeatMsg;
+        yesBtn.style.display = 'none';
+        noBtn.style.display = 'none';
+        confettiExplosion();
+        setInterval(createHeart, 300);
+    }
+    
+   
+    continueBtn.addEventListener('click', () => {
+       
+        heartfeltMessage.style.opacity = '0';
+        heartfeltMessage.style.transform = 'translateY(-20px)';
+        heartfeltMessage.style.transition = 'all 0.8s ease';
+        
+      
+        continueBtn.style.opacity = '0';
+        continueBtn.style.transform = 'translateY(20px)';
+        continueBtn.style.transition = 'all 0.8s ease';
+        
+        setTimeout(() => {
+            heartfeltMessage.style.display = 'none';
+            continueBtn.style.display = 'none';
+            
+         
+            questionSection.style.display = 'block';
+            setTimeout(() => {
+                questionSection.style.opacity = '1';
+                questionSection.style.transform = 'translateY(0)';
+            }, 50);
+        }, 800);
+    });
+    
+   
+    yesBtn.addEventListener('click', () => {
+        localStorage.setItem("forgiven", "yes");
+        questionText.innerHTML = finalMsg;
+        
+        
+        confettiExplosion();
+        createFloatingHearts(100);
+        setInterval(createHeart, 300);
+        
+       
+        yesBtn.style.transform = 'scale(1.5)';
+        yesBtn.style.transition = 'all 0.5s ease';
+        
+      
+        noBtn.style.display = 'none';
+        
+      
+        setTimeout(() => {
+            yesBtn.style.transform = 'scale(1)';
+        }, 1000);
+    });
+    
+   
+    noBtn.addEventListener('click', () => {
+        noClickCount++;
+        
+   
+        moveNoButtonWithinArea();
+        
+     
+        showPopup();
+        
+       
+        yesBtn.style.transform = `scale(${1 + (noClickCount * 0.1)})`;
+        yesBtn.innerHTML = `YES 💖 x${noClickCount}`;
+        
+     
+        if (noClickCount >= 3) {
+            questionText.innerHTML = "I'm really trying here... Will you forgive me? 🥺💔";
+        } else if (noClickCount >= 5) {
+            questionText.innerHTML = "My heart is breaking... Please say yes? 💔😢";
+        } else if (noClickCount >= 7) {
+            questionText.innerHTML = "I'll do anything! Just please forgive me? 🥺🤲";
+        }
+    });
+    
+   
+    function moveNoButtonWithinArea() {
+        const areaWidth = noButtonArea.offsetWidth;
+        const areaHeight = noButtonArea.offsetHeight;
+        const buttonWidth = noBtn.offsetWidth;
+        const buttonHeight = noBtn.offsetHeight;
+        
+      
+        const maxX = areaWidth - buttonWidth;
+        const maxY = areaHeight - buttonHeight;
+        
+      
+        const x = Math.random() * Math.max(0, maxX);
+        const y = Math.random() * Math.max(0, maxY);
+        
+       
+        noBtn.style.position = 'absolute';
+        noBtn.style.left = `${x}px`;
+        noBtn.style.top = `${y}px`;
+        
+        
+        const scale = Math.max(0.6, 1 - (noClickCount * 0.08));
+        noBtn.style.transform = `scale(${scale})`;
+        
+     
+        const rotation = Math.random() * 20 - 10; // -10 to 10 degrees
+        noBtn.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
+        
+       
+        const opacity = Math.max(0.7, 1 - (noClickCount * 0.05));
+        noBtn.style.opacity = opacity;
+        
+        
+        if (Math.random() > 0.7 && noClickCount > 2) {
+            noBtn.style.zIndex = '0';
+            yesBtn.style.zIndex = '3';
+        } else {
+            noBtn.style.zIndex = '1';
+            yesBtn.style.zIndex = '2';
+        }
+    }
+    
+ 
+    function showPopup() {
+      
+        popups.forEach(popupId => {
+            document.getElementById(popupId).style.display = 'none';
+        });
+        
+      
+        overlay.style.display = 'block';
+        
+       
+        const currentPopup = document.getElementById(popups[popupIndex]);
+        currentPopup.style.display = 'block';
+        
+      
+        popupIndex = (popupIndex + 1) % popups.length;
+    }
+    
+    
+    function closePopup(popupNumber) {
+        document.getElementById(`popup${popupNumber}`).style.display = 'none';
+        overlay.style.display = 'none';
+    }
+    
+  
+    function confettiExplosion() {
+        const duration = 1500;
+        const end = Date.now() + duration;
+
+        (function frame() {
+            confetti({ particleCount: 7, spread: 60 });
+            if (Date.now() < end) requestAnimationFrame(frame);
+        })();
+    }
+    
+   
+    function createHeart() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "💖";
+        document.body.appendChild(heart);
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+        setTimeout(() => heart.remove(), 6000);
+    }
+    
+   
+    overlay.addEventListener('click', () => {
+        popups.forEach(popupId => {
+            document.getElementById(popupId).style.display = 'none';
+        });
+        overlay.style.display = 'none';
+    });
+    
+   
+    noBtn.addEventListener('mouseenter', () => {
+        if (noClickCount > 0) {
+            
+            setTimeout(() => {
+                const currentLeft = parseFloat(noBtn.style.left) || 0;
+                const currentTop = parseFloat(noBtn.style.top) || 0;
+                
+                const areaWidth = noButtonArea.offsetWidth;
+                const areaHeight = noButtonArea.offsetHeight;
+                const buttonWidth = noBtn.offsetWidth;
+                const buttonHeight = noBtn.offsetHeight;
+                
+                const maxX = areaWidth - buttonWidth;
+                const maxY = areaHeight - buttonHeight;
+                
+                
+                let newX = currentLeft + (Math.random() * 40 - 20);
+                let newY = currentTop + (Math.random() * 40 - 20);
+                
+                
+                newX = Math.max(0, Math.min(newX, maxX));
+                newY = Math.max(0, Math.min(newY, maxY));
+                
+                noBtn.style.left = `${newX}px`;
+                noBtn.style.top = `${newY}px`;
+            }, 100);
+        }
+    });
+</script>
+
+</body>
+</html>
